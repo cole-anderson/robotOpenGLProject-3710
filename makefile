@@ -9,11 +9,11 @@ LIBRARIES = -lX11 -lXi -lXmu -lglut -lGL -lGLU -lm
 all: robot
 # 	$(CC) $(CFLAGS) -o $@ $(LIBDIR) $< $(LIBRARIES)
 
-robot: main.o building.o robot.o
-	#g++ -c robot.cpp
-	#g++ -c building.cpp
+robot: main.o world.o robot.o
+	g++ -c robot.cpp
+	g++ -c world.cpp
 	g++ -c main.cpp
-	$(CC) $(CFLAGS) main.o building.o -o robot $(LIBDIR) $(LIBRARIES)
+	$(CC) $(CFLAGS) main.o world.o -o robot $(LIBDIR) $(LIBRARIES)
 
 clean:
 	rm -f *.o *~ robot
