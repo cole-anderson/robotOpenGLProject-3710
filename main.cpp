@@ -152,6 +152,16 @@ if (robNorth) {
         offAddz = 0;
         robNorth = false;
         robEast = true;
+        recentfKey += 1;
+        if (recentfKey == 5) {
+          recentfKey = 1;
+        }
+        if (recentfKey == 9) {
+          recentfKey = 5;
+        }
+        if (recentfKey == 13) {
+          recentfKey = 9;
+        }
         }
 }
 if (robEast) {
@@ -161,6 +171,16 @@ if (robEast) {
         offAddz = -5;
         robEast = false;
         robSouth = true;
+        recentfKey += 1;
+        if (recentfKey == 5) {
+          recentfKey = 1;
+        }
+        if (recentfKey == 9) {
+          recentfKey = 5;
+        }
+        if (recentfKey == 13) {
+          recentfKey = 9;
+        }
         }
 }
 if (robSouth) {
@@ -170,6 +190,16 @@ if (robSouth) {
         offAddz = 0;
         robSouth = false;
         robWest = true;
+        recentfKey += 1;
+        if (recentfKey == 5) {
+          recentfKey = 1;
+        }
+        if (recentfKey == 9) {
+          recentfKey = 5;
+        }
+        if (recentfKey == 13) {
+          recentfKey = 9;
+        }
         }
 }
 if (robWest) {
@@ -179,7 +209,18 @@ if (robWest) {
         offAddz = 5;
         robWest = false;
         robNorth = true;
+        recentfKey += 1;
+        if (recentfKey == 5) {
+          recentfKey = 1;
         }
+        if (recentfKey == 9) {
+          recentfKey = 5;
+        }
+        if (recentfKey == 13) {
+          recentfKey = 9;
+        }
+      }
+
 }
 
       break;
@@ -196,7 +237,18 @@ if (robWest) {
 
 void speckeyboard(int key, int x, int y) {
     if (key == GLUT_KEY_F1) {
-        recentfKey = 1;
+        if (robNorth) {
+          recentfKey = 1;
+        }
+        if (robEast) {
+          recentfKey = 2;
+        }
+        if (robSouth) {
+          recentfKey = 3;
+        }
+        if (robWest) {
+          recentfKey = 4;
+        }
     }
     if (key == GLUT_KEY_F2) {
         headTurnR = true;

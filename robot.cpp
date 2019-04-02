@@ -535,13 +535,73 @@ void moveCam (int fKey) {
         if (eyey < 5) {
             eyey++;
         }
-        if (eyez > (offz + 15)) {
+        if (eyez > (offz + -15)) {
             eyez--;
         }
-        if (eyez < (offz + 15)) {
+        if (eyez < (offz + -15)) {
             eyez++;
         }
         break;
+        case 2:
+            if (eyex > (offx + -15)) {
+                eyex--;
+            }
+            if (eyex < (offx + -15)) {
+                eyex++;
+            }
+            if (eyey > 5) {
+                eyey--;
+            }
+            if (eyey < 5) {
+                eyey++;
+            }
+            if (eyez > (offz + 0)) {
+                eyez--;
+            }
+            if (eyez < (offz + 0)) {
+                eyez++;
+            }
+            break;
+            case 3:
+                if (eyex > (offx + 0)) {
+                    eyex--;
+                }
+                if (eyex < (offx + 0)) {
+                    eyex++;
+                }
+                if (eyey > 5) {
+                    eyey--;
+                }
+                if (eyey < 5) {
+                    eyey++;
+                }
+                if (eyez > (offz + 15)) {
+                    eyez--;
+                }
+                if (eyez < (offz + 15)) {
+                    eyez++;
+                }
+                break;
+                case 4:
+                    if (eyex > (offx + 15)) {
+                        eyex--;
+                    }
+                    if (eyex < (offx + 15)) {
+                        eyex++;
+                    }
+                    if (eyey > 5) {
+                        eyey--;
+                    }
+                    if (eyey < 5) {
+                        eyey++;
+                    }
+                    if (eyez > (offz + 0)) {
+                        eyez--;
+                    }
+                    if (eyez < (offz + 0)) {
+                        eyez++;
+                    }
+                    break;
     case 5:
         if (eyex > (offx + 10)) {
             eyex--;
