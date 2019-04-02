@@ -21,7 +21,7 @@ int Window_Width = 600;
 int Window_Height = 400;
 
 
-int recentfKey = 0;
+int recentfKey = 1;
 
 void moveCam(int);
 
@@ -59,8 +59,8 @@ glPopMatrix();
 //glTranslatef(605, 0, 605);
 
 //drawBuildingA(0,0);
-for (int i = 0; i<19; i++) {
-  for (int j = 0; j<19; j++) {
+for (int i = 0; i<20; i++) {
+  for (int j = 0; j<20; j++) {
     int build = randNums[i*j];
     switch(build) {
       case 1:
@@ -144,87 +144,174 @@ void keyboard(unsigned char key, int x, int y)
        robot.offz += offAddz;
       break;
    case 97: // a key
-if (robNorth) {
-        if (!robRotL && !robRotR) {
-                std::cout << "ayylmao" << std::endl;
-        robRotR = true;
-        offAddx = 5;
-        offAddz = 0;
-        robNorth = false;
-        robEast = true;
-        recentfKey += 1;
-        if (recentfKey == 5) {
-          recentfKey = 1;
-        }
-        if (recentfKey == 9) {
-          recentfKey = 5;
-        }
-        if (recentfKey == 13) {
-          recentfKey = 9;
-        }
-        }
-}
-if (robEast) {
-        if (!robRotL && !robRotR) {
-        robRotR = true;
-        offAddx = 0;
-        offAddz = -5;
-        robEast = false;
-        robSouth = true;
-        recentfKey += 1;
-        if (recentfKey == 5) {
-          recentfKey = 1;
-        }
-        if (recentfKey == 9) {
-          recentfKey = 5;
-        }
-        if (recentfKey == 13) {
-          recentfKey = 9;
-        }
-        }
-}
-if (robSouth) {
-        if (!robRotL && !robRotR) {
-        robRotR = true;
-        offAddx = -5;
-        offAddz = 0;
-        robSouth = false;
-        robWest = true;
-        recentfKey += 1;
-        if (recentfKey == 5) {
-          recentfKey = 1;
-        }
-        if (recentfKey == 9) {
-          recentfKey = 5;
-        }
-        if (recentfKey == 13) {
-          recentfKey = 9;
-        }
-        }
-}
-if (robWest) {
-        if (!robRotL && !robRotR) {
-        robRotR = true;
-        offAddx = 0;
-        offAddz = 5;
-        robWest = false;
-        robNorth = true;
-        recentfKey += 1;
-        if (recentfKey == 5) {
-          recentfKey = 1;
-        }
-        if (recentfKey == 9) {
-          recentfKey = 5;
-        }
-        if (recentfKey == 13) {
-          recentfKey = 9;
-        }
-      }
+   if ((robot.cx % 60 == 0) && (robot.cz % 60 == 0)) {
+   if (robNorth) {
+           if (!robRotL && !robRotR) {
+           robRotL = true;
+           offAddx = -5;
+           offAddz = 0;
+           robNorth = false;
+           robEast = true;
+           recentfKey -= 1;
+           if (recentfKey == 0) {
+             recentfKey = 4;
+             break;
+           }
+           if (recentfKey == 4) {
+             recentfKey = 8;
+             break;
+           }
+           if (recentfKey == 8) {
+             recentfKey = 12;
+           }
+           }
+   }
+   if (robEast) {
+           if (!robRotL && !robRotR) {
+           robRotL = true;
+           offAddx = 0;
+           offAddz = -5;
+           robEast = false;
+           robSouth = true;
+           recentfKey -= 1;
+           if (recentfKey == 0) {
+             recentfKey = 4;
+             break;
+           }
+           if (recentfKey == 4) {
+             recentfKey = 8;
+             break;
+           }
+           if (recentfKey == 8) {
+             recentfKey = 12;
+           }
+           }
+   }
+   if (robSouth) {
+           if (!robRotL && !robRotR) {
+           robRotL = true;
+           offAddx = 5;
+           offAddz = 0;
+           robSouth = false;
+           robWest = true;
+           recentfKey -= 1;
+           if (recentfKey == 0) {
+             recentfKey = 4;
+             break;
+           }
+           if (recentfKey == 4) {
+             recentfKey = 8;
+             break;
+           }
+           if (recentfKey == 8) {
+             recentfKey = 12;
+           }
+           }
+   }
+   if (robWest) {
+           if (!robRotL && !robRotR) {
+           robRotL = true;
+           offAddx = 0;
+           offAddz = 5;
+           robWest = false;
+           robNorth = true;
+           recentfKey -= 1;
+           if (recentfKey == 0) {
+             recentfKey = 4;
+             break;
+           }
+           if (recentfKey == 4) {
+             recentfKey = 8;
+             break;
+           }
+           if (recentfKey == 8) {
+             recentfKey = 12;
+           }
+         }
 
-}
-
+   }
+ }
       break;
    case 113: // q key
+   if ((robot.cx % 60 == 0) && (robot.cz % 60 == 0)) {
+   if (robNorth) {
+           if (!robRotL && !robRotR) {
+           robRotR = true;
+           offAddx = 5;
+           offAddz = 0;
+           robNorth = false;
+           robWest = true;
+           recentfKey += 1;
+           if (recentfKey == 5) {
+             recentfKey = 1;
+           }
+           if (recentfKey == 9) {
+             recentfKey = 5;
+           }
+           if (recentfKey == 13) {
+             recentfKey = 9;
+           }
+           }
+   }
+   if (robEast) {
+           if (!robRotL && !robRotR) {
+           robRotR = true;
+           offAddx = 0;
+           offAddz = 5;
+           robEast = false;
+           robNorth = true;
+           recentfKey += 1;
+           if (recentfKey == 5) {
+             recentfKey = 1;
+           }
+           if (recentfKey == 9) {
+             recentfKey = 5;
+           }
+           if (recentfKey == 13) {
+             recentfKey = 9;
+           }
+           }
+   }
+   if (robSouth) {
+           if (!robRotL && !robRotR) {
+           robRotR = true;
+           offAddx = -5;
+           offAddz = 0;
+           robSouth = false;
+           robEast = true;
+           recentfKey += 1;
+           if (recentfKey == 5) {
+             recentfKey = 1;
+           }
+           if (recentfKey == 9) {
+             recentfKey = 5;
+           }
+           if (recentfKey == 13) {
+             recentfKey = 9;
+           }
+           }
+   }
+   if (robWest) {
+           if (!robRotL && !robRotR) {
+           robRotR = true;
+           offAddx = 0;
+           offAddz = -5;
+           robWest = false;
+           robSouth = true;
+           recentfKey += 1;
+           if (recentfKey == 5) {
+             recentfKey = 1;
+           }
+           if (recentfKey == 9) {
+             recentfKey = 5;
+           }
+           if (recentfKey == 13) {
+             recentfKey = 9;
+           }
+         }
+
+   }
+ }
 
       break;
    case 32: // space bar

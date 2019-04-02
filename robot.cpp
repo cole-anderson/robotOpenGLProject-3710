@@ -22,7 +22,7 @@ class Robot {
 public:
   float atx = 0, aty = 0.0, atz = 0; //floats for the at coordinates in our LookAt
   float eyex = 0, eyey = 4, eyez = -15; //the xyz coords for the eye location in our LookAt, starting at 0 0 5
-  float cx = 0, cy = -3.5, cz = 0;  //floats for defining coords of the center of cube, cube starts centered at 0 0 0
+  int cx = 0, cy = -3.5, cz = 0;  //floats for defining coords of the center of cube, cube starts centered at 0 0 0
   int bodyAngle = 0; //the angle at which the cube is currently.
   int headAngle = 0;
   int antRot = 0;
@@ -37,7 +37,7 @@ public:
   //  glTranslatef(-605 + x, 0, -605 + z);
 	  glLoadIdentity();
 			gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
-    glTranslatef(-600, 0, -600);
+    glTranslatef(-660, 0, -660);
 	  glTranslatef(x+30, -4.95, z+30);
 	  glRotatef(90, -1, 0, 0);
 	  //Draw the cylinder based on the current matrix so it's it the correct position
@@ -55,7 +55,7 @@ public:
 
 	glLoadIdentity();
 		gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
-    glTranslatef(-595, -4.95, -595);
+    glTranslatef(-655, -4.95, -655);
 	  glColor3f( 1, 0, 0);
 	  //Top Building
 	  // BACK
@@ -286,7 +286,7 @@ void draw_environment(GLenum mode){
 void drawBuildingC(int x, int z) {
   glLoadIdentity();
 	gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
-  glTranslatef(-595, -4.95, -595);
+  glTranslatef(-655, -4.95, -655);
   glColor3f( 1, 0, 0);
   // BACK
   glBegin(GL_POLYGON);
@@ -768,8 +768,14 @@ void moveCam (int fKey) {
 void bodyRot(bool& robRotR, bool& robRotL) {
 if (robRotR) {
     bodyAngle += 3;
-    if ((bodyAngle == 90) || (bodyAngle == 180) || (bodyAngle == 270) || (bodyAngle == 360)) {
+    if ((bodyAngle == 90) || (bodyAngle == 180) || (bodyAngle == 270) || (bodyAngle == 360) || (bodyAngle == 0)) {
         if (bodyAngle == 360) {
+            bodyAngle = 0;
+        }
+        robRotR = false;
+    }
+    if ((bodyAngle == -90) || (bodyAngle == -180) || (bodyAngle == -270) || (bodyAngle == -360) || (bodyAngle == 0))  {
+        if (bodyAngle == -360) {
             bodyAngle = 0;
         }
         robRotR = false;
@@ -777,8 +783,14 @@ if (robRotR) {
 }
 if (robRotL) {
     bodyAngle -= 3;
-    if ((bodyAngle == 90) || (bodyAngle == 180) || (bodyAngle == 270) || (bodyAngle == 360)) {
-        if (bodyAngle == 360) {
+    if ((bodyAngle == -90) || (bodyAngle == -180) || (bodyAngle == -270) || (bodyAngle == -360) || (bodyAngle == 0)) {
+        if (bodyAngle == -360) {
+            bodyAngle = 0;
+        }
+        robRotL = false;
+    }
+    if ((bodyAngle == 90) || (bodyAngle == 180) || (bodyAngle == 270) || (bodyAngle == 360) || (bodyAngle == 0)) {
+        if (bodyAngle == -360) {
             bodyAngle = 0;
         }
         robRotL = false;
