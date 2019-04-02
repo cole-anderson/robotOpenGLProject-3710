@@ -20,14 +20,20 @@ void headRotate(bool, bool);
 
 class Robot {
 public:
-  float atx = 0, aty = 0.0, atz = 0; //floats for the at coordinates in our LookAt
-  float eyex = 0, eyey = 4, eyez = -15; //the xyz coords for the eye location in our LookAt, starting at 0 0 5
-  int cx = 0, cy = -3.5, cz = 0;  //floats for defining coords of the center of cube, cube starts centered at 0 0 0
-  int bodyAngle = 0; //the angle at which the cube is currently.
-  int headAngle = 0;
-  int antRot = 0;
-  float offz = 0;
-  float offx = 0;
+  float atx;
+  float aty;
+  float atz; //floats for the at coordinates in our LookAt
+  float eyex;
+  float eyey;
+  float eyez; //the xyz coords for the eye location in our LookAt, starting at 0 0 5
+  float cx;
+  float cy;
+  float cz;  //floats for defining coords of the center of cube, cube starts centered at 0 0 0
+  int bodyAngle; //the angle at which the cube is currently.
+  int headAngle;
+  int antRot;
+  float offz;
+  float offx;
 
 	//Draws the buildings for a block
 	void drawBuildingB(int x, int z) {
