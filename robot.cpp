@@ -26,6 +26,8 @@ public:
   int bodyAngle = 0; //the angle at which the cube is currently.
   int headAngle = 0;
   int antRot = 0;
+  float offz = 0;
+  float offx = 0;
 
 	//Draws the buildings for a block
 	void drawBuildingB(int x, int z) {
@@ -338,8 +340,9 @@ void drawRobot() {
   glLoadIdentity();
   gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
 
-  //glRotatef(90, 0, 1, 0);
-  glTranslatef(cx,cy, cz);
+  glTranslatef(cx,cy,cz);
+  glRotatef(bodyAngle, 0, 1, 0);
+  glTranslatef(0, 0, 0);
 
   //glRotatef(cubeAngle, 0.0f, 1.0f, 0.0f);
 
@@ -438,8 +441,9 @@ void drawRobot() {
   glLoadIdentity();
   gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
 
-//  glRotatef(90, 0, 1, 0);
-  glTranslatef(cx,cy, cz);
+  glTranslatef(cx,cy,cz);
+  glRotatef(bodyAngle, 0, 1, 0);
+  glTranslatef(0, 0, 0);
 
   glRotatef(headAngle, 0.0f, 1.0f, 0.0f);
 
@@ -519,10 +523,10 @@ void drawRobot() {
 void moveCam (int fKey) {
     switch (fKey) {
     case 1:
-        if (eyex > 0) {
+        if (eyex > (offx + 0)) {
             eyex--;
         }
-        if (eyex < 0) {
+        if (eyex < (offx + 0)) {
             eyex++;
         }
         if (eyey > 5) {
@@ -531,18 +535,18 @@ void moveCam (int fKey) {
         if (eyey < 5) {
             eyey++;
         }
-        if (eyez > (cz + 15)) {
+        if (eyez > (offz + 15)) {
             eyez--;
         }
-        if (eyez < (cz + 15)) {
+        if (eyez < (offz + 15)) {
             eyez++;
         }
         break;
     case 5:
-        if (eyex > 10) {
+        if (eyex > (offx + 10)) {
             eyex--;
         }
-        if (eyex < 10) {
+        if (eyex < (offx + 10)) {
             eyex++;
         }
         if (eyey > 10) {
@@ -551,18 +555,18 @@ void moveCam (int fKey) {
         if (eyey < 10) {
             eyey++;
         }
-        if (eyez > (cz + -10)) {
+        if (eyez > (offz + -10)) {
             eyez--;
         }
-        if (eyez < (cz + -10)) {
+        if (eyez < (offz + -10)) {
             eyez++;
         }
         break;
     case 6:
-        if (eyex > -10) {
+        if (eyex > (offx + -10)) {
             eyex--;
         }
-        if (eyex < -10) {
+        if (eyex < (offx + -10)) {
             eyex++;
         }
         if (eyey > 10) {
@@ -571,18 +575,18 @@ void moveCam (int fKey) {
         if (eyey < 10) {
             eyey++;
         }
-        if (eyez > (cz + -10)) {
+        if (eyez > (offz + -10)) {
             eyez--;
         }
-        if (eyez < (cz + -10)) {
+        if (eyez < (offz + -10)) {
             eyez++;
         }
         break;
     case 7:
-        if (eyex > -10) {
+        if (eyex > (offx + -10)) {
             eyex--;
         }
-        if (eyex < -10) {
+        if (eyex < (offx + -10)) {
             eyex++;
         }
         if (eyey > 10) {
@@ -591,18 +595,18 @@ void moveCam (int fKey) {
         if (eyey < 10) {
             eyey++;
         }
-        if (eyez > (cz + 10)) {
+        if (eyez > (offz + 10)) {
             eyez--;
         }
-        if (eyez < (cz + 10)) {
+        if (eyez < (offz + 10)) {
             eyez++;
         }
         break;
     case 8:
-        if (eyex > 10) {
+        if (eyex > (offx + 10)) {
             eyex--;
         }
-        if (eyex < 10) {
+        if (eyex < (offx + 10)) {
             eyex++;
         }
         if (eyey > 10) {
@@ -611,18 +615,18 @@ void moveCam (int fKey) {
         if (eyey < 10) {
             eyey++;
         }
-        if (eyez > (cz + 10)) {
+        if (eyez > (offz + 10)) {
             eyez--;
         }
-        if (eyez < (cz + 10)) {
+        if (eyez < (offz + 10)) {
             eyez++;
         }
         break;
     case 9:
-        if (eyex > 200) {
+        if (eyex > (offx + 200)) {
             eyex--;
         }
-        if (eyex < 200) {
+        if (eyex < (offx + 200)) {
             eyex++;
         }
         if (eyey > 200) {
@@ -631,18 +635,18 @@ void moveCam (int fKey) {
         if (eyey < 200) {
             eyey++;
         }
-        if (eyez > (cz + -200)) {
+        if (eyez > (offz + -200)) {
             eyez--;
         }
-        if (eyez < (cz + -200)) {
+        if (eyez < (offz + -200)) {
             eyez++;
         }
         break;
     case 10:
-        if (eyex > -200) {
+        if (eyex > (offx + -200)) {
             eyex--;
         }
-        if (eyex < -200) {
+        if (eyex < (offx + -200)) {
             eyex++;
         }
         if (eyey > 200) {
@@ -651,18 +655,18 @@ void moveCam (int fKey) {
         if (eyey < 200) {
             eyey++;
         }
-        if (eyez > (cz + -200)) {
+        if (eyez > (offz + -200)) {
             eyez--;
         }
-        if (eyez < (cz + -200)) {
+        if (eyez < (offz + -200)) {
             eyez++;
         }
         break;
     case 11:
-        if (eyex > -200) {
+        if (eyex > (offx + -200)) {
             eyex--;
         }
-        if (eyex < -200) {
+        if (eyex < (offx + -200)) {
             eyex++;
         }
         if (eyey > 200) {
@@ -671,18 +675,18 @@ void moveCam (int fKey) {
         if (eyey < 200) {
             eyey++;
         }
-        if (eyez > (cz + 200)) {
+        if (eyez > (offz + 200)) {
             eyez--;
         }
-        if (eyez < (cz + 200)) {
+        if (eyez < (offz + 200)) {
             eyez++;
         }
         break;
     case 12:
-        if (eyex > 200) {
+        if (eyex > (offx + 200)) {
             eyex--;
         }
-        if (eyex < 200) {
+        if (eyex < (offx + 200)) {
             eyex++;
         }
         if (eyey > 200) {
@@ -691,14 +695,35 @@ void moveCam (int fKey) {
         if (eyey < 200) {
             eyey++;
         }
-        if (eyez > (cz + 200)) {
+        if (eyez > (offz + 200)) {
             eyez--;
         }
-        if (eyez < (cz + 60)) {
+        if (eyez < (offz + 200)) {
             eyez++;
         }
         break;
     }
+}
+
+void bodyRot(bool& robRotR, bool& robRotL) {
+if (robRotR) {
+    bodyAngle += 3;
+    if ((bodyAngle == 90) || (bodyAngle == 180) || (bodyAngle == 270) || (bodyAngle == 360)) {
+        if (bodyAngle == 360) {
+            bodyAngle = 0;
+        }
+        robRotR = false;
+    }
+}
+if (robRotL) {
+    bodyAngle -= 3;
+    if ((bodyAngle == 90) || (bodyAngle == 180) || (bodyAngle == 270) || (bodyAngle == 360)) {
+        if (bodyAngle == 360) {
+            bodyAngle = 0;
+        }
+        robRotL = false;
+    }
+}
 }
 
 void headRotate(bool headTurnR, bool headTurnL) {

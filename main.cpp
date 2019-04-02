@@ -27,251 +27,16 @@ void moveCam(int);
 
 bool headTurnR = false; //can head turn right
 bool headTurnL = false; // can head turn left
+bool robRotR = false;
+bool robRotL = false;
+bool robNorth = true;
+bool robEast = false;
+bool robSouth = false;
+bool robWest = false;
+int offAddz = 5;
+int offAddx = 0;
 int randNums[400];
 Robot robot;
-
-//Draws the buildings for a block
-void drawBuildingA(int x, int z) {
-
-glLoadIdentity();
-  glColor3f( 1, 0, 0);
-  //Top Building
-  // BACK
-  glBegin(GL_POLYGON);
-  glVertex3f(  x+16.5, 0, z+45 );
-  glVertex3f(  x+16.5, 60, z+45 );
-  glVertex3f( x+34, 60, z+45 );
-  glVertex3f( x+34, 0, z+45 );
-  glEnd();
-  //RIGHT
-  glBegin(GL_POLYGON);
-  glVertex3f( x+34, 60, z+45 );
-  glVertex3f( x+34, 0, z+45 );
-  glVertex3f( x+34, 0, z+27.5 );
-  glVertex3f( x+34, 60, z+27.5 );
-  glEnd();
-  //LEFT
-  glBegin(GL_POLYGON);
-  glVertex3f( x+16.5, 60, z+27.5 );
-  glVertex3f( x+16.5, 0, z+27.5 );
-  glVertex3f( x+16.5, 0, z+45 );
-  glVertex3f( x+16.5, 0, z+27.5 );
-  glEnd();
-  //TOP
-  glBegin(GL_POLYGON);
-  glVertex3f( x+16.5, 60, z+27.5 );
-  glVertex3f( x+16.5 , 60, z+45 );
-  glVertex3f( x+34, 60, z+45 );
-  glVertex3f( x+34, 60, z+27.5 );
-  glEnd();
-  //BOTTOM
-  glBegin(GL_POLYGON);
-  glVertex3f( x+16.5, 0, z+27.5 );
-  glVertex3f( x+16.5, 0, z+45 );
-  glVertex3f( x+34 , 0, z+45 );
-  glVertex3f( x+34, 0, z+27.5 );
-  glEnd();
-
-  //Bottom Left Building
-  // BACK
-  glBegin(GL_POLYGON);
-  glVertex3f(  x+5, 0, z+22.5 );
-  glVertex3f(  x+5, 50, z+22.5 );
-  glVertex3f( x+22.5, 50, z+22.5 );
-  glVertex3f( x+22.5, 0, z+22.5 );
-  glEnd();
-  //RIGHT
-  glBegin(GL_POLYGON);
-  glVertex3f( x+22.5, 0, z+5 );
-  glVertex3f( x+22.5, 50, z+5 );
-  glVertex3f( x+22.5, 50, z+22.5 );
-  glVertex3f( x+22.5, 0, z+22.5 );
-  glEnd();
-  //LEFT
-  glBegin(GL_POLYGON);
-  glVertex3f( x+5, 0, z+5 );
-  glVertex3f( x+5, 50, z+5 );
-  glVertex3f( x+5, 50, z+22.5 );
-  glVertex3f( x+5, 0, z+22.5 );
-  glEnd();
-  //TOP
-  glBegin(GL_POLYGON);
-  glVertex3f( x+5, 50, z+5 );
-  glVertex3f( x+5 , 50, z+22.5 );
-  glVertex3f( x+22.5, 50, z+22.5 );
-  glVertex3f( x+22.5, 50, z+5 );
-  glEnd();
-  //BOTTOM
-  glBegin(GL_POLYGON);
-  glVertex3f( x+5, 0, z+5 );
-  glVertex3f( x+5, 0, z+22.5 );
-  glVertex3f( x+22.5 , 0, z+22.5 );
-  glVertex3f( x+22.5, 0, z+5 );
-  glEnd();
-
-  //Draw the cylindrical building
-  //Set up transformation matrix resulted from rotation and translation
-  glLoadIdentity();
-  glRotatef(90, 1, 0, 0);
-  glTranslatef(x+36.5, 0, z+13.75);
-  //Draw the cylinder based on the current matrix so it's it the correct position
-  glBegin(GL_POLYGON);
-  GLUquadricObj *obj = gluNewQuadric();
-  gluCylinder(obj, 8.75, 8.75, 55, 50, 50);
-  glEnd();
-  //Reset current matrix to identity
-  glLoadIdentity();
-}
-
-//Draws the buildings for a block
-void drawBuildingB(int x, int z) {
-  //Draw the one cylindrical building on the block
-  glColor3f( 1, 0, 0);
-  glLoadIdentity();
-  glRotatef(90, 1, 0, 0);
-  glTranslatef(x+25, -4.95, z+25);
-  //Draw the cylinder based on the current matrix so it's it the correct position
-  glBegin(GL_POLYGON);
-  GLUquadricObj *obj = gluNewQuadric();
-  gluCylinder(obj, 20, 20, 30, 30, 30);
-  glEnd();
-  //Reset current matrix to identity
-  glLoadIdentity();
-
-}
-
-//Draws the buildings for a block
-void drawBuildingC(int x, int z) {
-  glColor3f( 1, 0, 0);
-  // BACK
-  glBegin(GL_POLYGON);
-  glVertex3f(  x+5, 0, z+45 );
-  glVertex3f(  x+5, 80, z+45 );
-  glVertex3f( x+45, 80, z+45 );
-  glVertex3f( x+45, 0, z+45 );
-  glEnd();
-  //RIGHT
-  glBegin(GL_POLYGON);
-  glVertex3f( x+45, 80, z+45 );
-  glVertex3f( x+45, 0, z+45 );
-  glVertex3f( x+45, 0, z+5 );
-  glVertex3f( x+45, 80, z+5 );
-  glEnd();
-  //LEFT
-  glBegin(GL_POLYGON);
-  glVertex3f( x+5, 0, z+5 );
-  glVertex3f( x+5, 80, z+5 );
-  glVertex3f( x+5, 80, z+45 );
-  glVertex3f( x+5, 0, z+45 );
-  glEnd();
-  //TOP
-  glBegin(GL_POLYGON);
-  glVertex3f( x+5, 80, z+5 );
-  glVertex3f( x+5 , 80, z+45 );
-  glVertex3f( x+45, 80, z+45 );
-  glVertex3f( x+45, 80, z+5 );
-  glEnd();
-  //BOTTOM
-  glBegin(GL_POLYGON);
-  glVertex3f( x+5, 0, z+5 );
-  glVertex3f( x+5, 0, z+45 );
-  glVertex3f( x+45 , 0, z+45 );
-  glVertex3f( x+45, 0, z+5 );
-  glEnd();
-
-}
-
-void draw_environment(GLenum mode){
-
-	// CLEAR THE BUFFER, all drawing code should be after this point
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-
-		//BLOCK COLORS:::
-    glColor4f(0.5, 0.9, 0.8, 1.0);
-
-    glBegin(GL_QUADS);
-		for (int i=0; i<10; i++) {
-			for (int j=0; j<10; j++) {
-                glTexCoord2f(1.0, 1.0); glVertex3f(-50.0+i*10, -5.0, -40.0+j*10);
-				glTexCoord2f(0.0, 1.0); glVertex3f(-40.0+i*10, -5.0, -40.0+j*10);
-                glTexCoord2f(0.0, 0.0); glVertex3f(-40.0+i*10, -5.0, -50.0+j*10);
-                glTexCoord2f(1.0, 0.0); glVertex3f(-50.0+i*10, -5.0, -50.0+j*10);
-			}
-		}
-		glEnd();
-
-		//ROAD COLORS:::
-    glColor4f(0.3, 0.3, 0.3, 0.3);
-
-    glBegin(GL_QUADS);
-
-    for (int i=0; i<10; i++) {
-            glTexCoord2f(1.0, 1.0); glVertex3f(-51+i*10, -4.95, 50.0);
-            glTexCoord2f(0.0, 1.0); glVertex3f(-49+i*10, -4.95, 50.0);
-            glTexCoord2f(0.0, 0.0); glVertex3f(-49+i*10, -4.95, -50.0);
-            glTexCoord2f(1.0, 0.0); glVertex3f(-51+i*10, -4.95, -50.0);
-    }
-
-    for (int i=0; i<10; i++) {
-        glTexCoord2f(1.0, 0.0); glVertex3f(-50, -4.95, -51+i*10);
-
-        glTexCoord2f(0.0, 0.0); glVertex3f(-50, -4.95, -49+i*10);
-        glTexCoord2f(0.0, 1.0); glVertex3f(50, -4.95, -49+i*10);
-        glTexCoord2f(1.0, 1.0); glVertex3f(50, -4.95, -51+i*10);
-
-
-    }
-    glEnd();
-
-
-		//SKY COLORS:::
-    glColor4f(1.0, 1.0, 1.0, 0.0);
-		glBegin(GL_QUADS);
-
-		glTexCoord2f(0.0, 0.0); glVertex3f( 50.0, 5.0, -50.0);
-
-		glTexCoord2f(0.0, 1.0); glVertex3f( 50.0, 5.0,  50.0);
-
-		glTexCoord2f(1.0, 1.0); glVertex3f(-50.0, 5.0,  50.0);
-
-		glTexCoord2f(1.0, 0.0); glVertex3f(-50.0, 5.0, -50.0);
-		glEnd();
-		glEnd();
-//		glBindTexture(GL_TEXTURE_2D, horizon);
-		glBegin(GL_QUADS);
-        glTexCoord2f(1.0, 1.0); glVertex3f( 50.0,  -5.0,  -50.0);
-        glTexCoord2f(1.0, 0.0); glVertex3f( 50.0, 5.0,  -50.0);
-        glTexCoord2f(0.0, 0.0); glVertex3f(-50.0, 5.0,  -50.0);
-		glTexCoord2f(0.0, 1.0); glVertex3f(-50.0,  -5.0,  -50.0);
-
-
-
-		glTexCoord2f(0.0, 0.0); glVertex3f(-50.0, -5.0,   50.0);
-		glTexCoord2f(0.0, 1.0); glVertex3f(-50.0,  5.0,   50.0);
-		glTexCoord2f(1.0, 1.0); glVertex3f( 50.0,  5.0,   50.0);
-		glTexCoord2f(1.0, 0.0); glVertex3f( 50.0, -5.0,   50.0);
-
-		glTexCoord2f(0.0, 0.0); glVertex3f( 50.0, 5.0,  -50.0);
-		glTexCoord2f(0.0, 1.0); glVertex3f( 50.0,  -5.0,  -50.0);
-		glTexCoord2f(1.0, 1.0); glVertex3f( 50.0,  -5.0,   50.0);
-		glTexCoord2f(1.0, 0.0); glVertex3f( 50.0, 5.0,   50.0);
-
-		glTexCoord2f(0.0, 0.0); glVertex3f(-50.0, -5.0,  -50.0);
-		glTexCoord2f(0.0, 1.0); glVertex3f(-50.0,  5.0,  -50.0);
-		glTexCoord2f(1.0, 1.0); glVertex3f(-50.0,  5.0,   50.0);
-		glTexCoord2f(1.0, 0.0); glVertex3f(-50.0, -5.0,   50.0);
-		glEnd();
-
-
-		glFlush();
-
-
-}
 
 static void PrintString(void *font, char *str)
 {
@@ -280,8 +45,6 @@ static void PrintString(void *font, char *str)
    for(i=0;i < len; i++)
       glutBitmapCharacter(font,*str++);
 }
-
-
 
 void CallBackRenderScene(void)
 {
@@ -315,8 +78,7 @@ for (int i = 0; i<19; i++) {
     }
 }
 }
-//robot.drawBuildingB(0,0);
-//dogs
+
 glPushMatrix();
 glLoadIdentity();
 robot.drawRobot();
@@ -342,6 +104,9 @@ glPopMatrix();
    glutSwapBuffers();
 
    robot.headRotate(headTurnR, headTurnL);
+   std::cout << robot.atx << " " << robot.eyex << " " << offAddx << std::endl;
+
+   robot.bodyRot(robRotR, robRotL);
    robot.moveCam(recentfKey);
 
 }
@@ -369,11 +134,53 @@ void keyboard(unsigned char key, int x, int y)
 {
    switch (key) {
    case 122: // z key
-       robot.cz += 5.0f;
-       robot.eyez += 5.0f;
-       robot.atz += 5.0f;
+       robot.cz += offAddz;
+       robot.cx += offAddx;
+       robot.eyez += offAddz;
+       robot.atz += offAddz;
+       robot.atx += offAddx;
+       robot.eyex += offAddx;
+       robot.offx += offAddx;
+       robot.offz += offAddz;
       break;
    case 97: // a key
+if (robNorth) {
+        if (!robRotL && !robRotR) {
+                std::cout << "ayylmao" << std::endl;
+        robRotR = true;
+        offAddx = 5;
+        offAddz = 0;
+        robNorth = false;
+        robEast = true;
+        }
+}
+if (robEast) {
+        if (!robRotL && !robRotR) {
+        robRotR = true;
+        offAddx = 0;
+        offAddz = -5;
+        robEast = false;
+        robSouth = true;
+        }
+}
+if (robSouth) {
+        if (!robRotL && !robRotR) {
+        robRotR = true;
+        offAddx = -5;
+        offAddz = 0;
+        robSouth = false;
+        robWest = true;
+        }
+}
+if (robWest) {
+        if (!robRotL && !robRotR) {
+        robRotR = true;
+        offAddx = 0;
+        offAddz = 5;
+        robWest = false;
+        robNorth = true;
+        }
+}
 
       break;
    case 113: // q key
