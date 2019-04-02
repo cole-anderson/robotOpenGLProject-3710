@@ -26,9 +26,9 @@ public:
   float eyex;
   float eyey;
   float eyez; //the xyz coords for the eye location in our LookAt, starting at 0 0 5
-  float cx;
-  float cy;
-  float cz;  //floats for defining coords of the center of cube, cube starts centered at 0 0 0
+  int cx;
+  int cy;
+  int cz;  //floats for defining coords of the center of cube, cube starts centered at 0 0 0
   int bodyAngle; //the angle at which the cube is currently.
   int headAngle;
   int antRot;
