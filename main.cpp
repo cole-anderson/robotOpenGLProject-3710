@@ -133,7 +133,7 @@ void drawBuildingB(int x, int z) {
   //Draw the cylinder based on the current matrix so it's it the correct position
   glBegin(GL_POLYGON);
   GLUquadricObj *obj = gluNewQuadric();
-  gluCylinder(obj, 20, 20, 75, 30, 70);
+  gluCylinder(obj, 20, 20, 30, 30, 30);
   glEnd();
   //Reset current matrix to identity
   glLoadIdentity();
@@ -308,12 +308,19 @@ for (int i = 0; i<19; i++) {
       break;
       case 3:
       robot.drawBuildingC(0+ i*60, 0+j*60);
+      break;
+      default:
+      robot.drawBuildingA(0 + i*60, 0+j*60);
+      break;
     }
 }
 }
 //robot.drawBuildingB(0,0);
 //dogs
+glPushMatrix();
+glLoadIdentity();
 robot.drawRobot();
+glPopMatrix();
 
 
    glLoadIdentity();
@@ -469,7 +476,6 @@ int main(int argc, char **argv)
 for (int i = 0; i<400; i++) {
   randNums[i] = rand() % 3 + 1;
 }
-
 
    glutInit(&argc, argv);
 

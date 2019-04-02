@@ -41,7 +41,7 @@ public:
 	  //Draw the cylinder based on the current matrix so it's it the correct position
 	  glBegin(GL_TRIANGLE_STRIP);
 	  GLUquadricObj *obj = gluNewQuadric();
-	  gluCylinder(obj, 20, 20, 30, 70, 70);
+	  gluCylinder(obj, 15, 15, 30, 10, 10);
 	  glEnd();
 	  //Reset current matrix to identity
 	  glLoadIdentity();
@@ -282,6 +282,7 @@ void draw_environment(GLenum mode){
 
 //Draws the buildings for a block
 void drawBuildingC(int x, int z) {
+  glLoadIdentity();
 	gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
   glTranslatef(-595, -4.95, -595);
   glColor3f( 1, 0, 0);
@@ -332,11 +333,12 @@ void drawRobot() {
 
 
 
+
   //cube begin
   glLoadIdentity();
   gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
 
-
+  //glRotatef(90, 0, 1, 0);
   glTranslatef(cx,cy, cz);
 
   //glRotatef(cubeAngle, 0.0f, 1.0f, 0.0f);
@@ -436,6 +438,7 @@ void drawRobot() {
   glLoadIdentity();
   gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
 
+//  glRotatef(90, 0, 1, 0);
   glTranslatef(cx,cy, cz);
 
   glRotatef(headAngle, 0.0f, 1.0f, 0.0f);
