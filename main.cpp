@@ -256,29 +256,123 @@ void speckeyboard(int key, int x, int y) {
     if (key == GLUT_KEY_F3) {
         headTurnL = true;
     }
+
     if (key == GLUT_KEY_F6) {
-            recentfKey = 6;
-    }
-    if (key == GLUT_KEY_F5) {
-    recentfKey = 5;
-    }
-    if (key == GLUT_KEY_F7) {
-            recentfKey = 7;
-    }
-    if (key == GLUT_KEY_F8) {
+      if (robNorth) {
+        recentfKey = 6;
+      }
+      if (robEast) {
+        recentfKey = 7;
+      }
+      if (robSouth) {
         recentfKey = 8;
+      }
+      if (robWest) {
+        recentfKey = 5;
+      }
+    }
+
+    if (key == GLUT_KEY_F5) {
+      if (robNorth) {
+        recentfKey = 5;
+      }
+      if (robEast) {
+        recentfKey = 6;
+      }
+      if (robSouth) {
+        recentfKey = 7;
+      }
+      if (robWest) {
+        recentfKey = 8;
+      }
+    }
+
+    if (key == GLUT_KEY_F7) {
+      if (robNorth) {
+        recentfKey = 7;
+      }
+      if (robEast) {
+        recentfKey = 8;
+      }
+      if (robSouth) {
+        recentfKey = 5;
+      }
+      if (robWest) {
+        recentfKey = 6;
+      }
+    }
+
+    if (key == GLUT_KEY_F8) {
+      if (robNorth) {
+        recentfKey = 8;
+      }
+      if (robEast) {
+        recentfKey = 5;
+      }
+      if (robSouth) {
+        recentfKey = 6;
+      }
+      if (robWest) {
+        recentfKey = 7;
+      }
     }
     if (key == GLUT_KEY_F9) {
-            recentfKey = 9;
+      if (robNorth) {
+        recentfKey = 9;
+      }
+      if (robEast) {
+        recentfKey = 10;
+      }
+      if (robSouth) {
+        recentfKey = 11;
+      }
+      if (robWest) {
+        recentfKey = 12;
+      }
     }
     if (key == GLUT_KEY_F10) {
+      if (robNorth) {
         recentfKey = 10;
-    }
-    if (key == GLUT_KEY_F11) {
+      }
+      if (robEast) {
         recentfKey = 11;
-    }
-    if (key == GLUT_KEY_F12) {
+      }
+      if (robSouth) {
         recentfKey = 12;
+      }
+      if (robWest) {
+        recentfKey = 9;
+      }
+    }
+
+    if (key == GLUT_KEY_F11) {
+      if (robNorth) {
+        recentfKey = 11;
+      }
+      if (robEast) {
+        recentfKey = 12;
+      }
+      if (robSouth) {
+        recentfKey = 9;
+      }
+      if (robWest) {
+        recentfKey = 10;
+      }
+    }
+
+    if (key == GLUT_KEY_F12) {
+      if (robNorth) {
+        recentfKey = 12;
+      }
+      if (robEast) {
+        recentfKey = 9;
+      }
+      if (robSouth) {
+        recentfKey = 10;
+      }
+      if (robWest) {
+        recentfKey = 11;
+      }
     }
 
 
