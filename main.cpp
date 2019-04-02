@@ -512,6 +512,23 @@ void MyInit(int Width, int Height)
 
 int main(int argc, char **argv)
 {
+   //INITIALIZATION
+  robot.atx = 0;
+  robot.aty = 0.0;
+  robot.atz = 0; //floats for the at coordinates in our LookAt
+  robot.eyex = 0;
+  robot.eyey = 4;
+  robot.eyez = -15; //the xyz coords for the eye location in our LookAt, starting at 0 0 5
+  robot.cx = 0;
+  robot.cy = -3.5;
+  robot.cz = 0;  //floats for defining coords of the center of cube, cube starts centered at 0 0 0
+  robot.bodyAngle = 0; //the angle at which the cube is currently.
+  robot.headAngle = 0;
+  robot.antRot = 0;
+  robot.offz = 0;
+  robot.offx = 0;
+   
+   
   srand(time(NULL));
 for (int i = 0; i<400; i++) {
   randNums[i] = rand() % 3 + 1;
