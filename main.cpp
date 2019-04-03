@@ -1,6 +1,18 @@
 #define PROGRAM_TITLE "Fortnite 2 - The Fork Knifening ft. Robot"
 #define DISPLAY_INFO "CPSC 3710"
+/*
+File: main.cpp
+Contributors:
+  Cole Anderson
+  Liam King
+  Brayden Ormann
+Purpose:
+  Main file used to impliment functionality of robot, objects(buildings) and world.
+  Robot is able to move around the world limited by intersections and boundaries.
+  Robot is able to destroy buildings of which are generated randomly in certain blocks
 
+
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -12,7 +24,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include<math.h>
-#include "robot.cpp"
+#include "objects.cpp"
 
 #define PI 3.1415927
 
@@ -22,6 +34,8 @@ int Window_Height = 400;
 
 
 int recentfKey = 1; //camera angle starts at the '1' position. This position is behind the robots head
+
+bool pausedState ; //game starts unpaused and is controlled by 'p' key to change this state
 
 void moveCam(int); //forward declaration of moveCam function.
 
@@ -77,7 +91,6 @@ void drawObjects(GLenum mode)
 
 
 }
-
 
 void CallBackRenderScene(void)
 {
@@ -168,7 +181,7 @@ void mouse(int button, int state, int x, int y)
    GLuint selectBuf[SIZE]; // Selection buffer, which is an array of size 512.
    GLint hits;
    GLint viewport[4]; // Current viewport size. See below.
-
+   if(!pausedState){
    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)  // When the left mouse button is pressed, we start picking.
    {
 
@@ -200,7 +213,7 @@ void mouse(int button, int state, int x, int y)
 	//
    	gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
                   	5.1,5.1, viewport);
-    gluPerspective(45.0f, (GLfloat)Window_Width/(GLfloat)Window_Height, 1.0, 150.0f);
+    gluPerspective(45.0f, (GLfloat)Window_Width/(GLfloat)Window_Height, 1.0, 250.0f);
     glMatrixMode(GL_MODELVIEW);
   	drawObjects(GL_SELECT);             // See below for the tricks we play here.
 
@@ -215,13 +228,25 @@ void mouse(int button, int state, int x, int y)
 
    	glutPostRedisplay();
    }
+ }
 }
 
 
 
 void keyboard(unsigned char key, int x, int y)
 {
+
+
+  if(!pausedState){
+
    switch (key) {
+     case 112: //p key
+
+      glutDisplayFunc(CallBackRenderScene);
+       glutIdleFunc(NULL);
+       pausedState = true;
+       break;
+
    case 122: // z key
        robot.cz += offAddz; //move the robot forward, the offAddx and offAddz change
        robot.cx += offAddx; //based on the direction the robot is currently facing
@@ -451,9 +476,18 @@ void keyboard(unsigned char key, int x, int y)
       printf ("No case assigned for %d.\n", key);
       break;
     }
+  }
+  else if(key = 112)
+  {
+    glutIdleFunc(CallBackRenderScene);
+    pausedState = false;
+  }
+
+
 }
 
 void speckeyboard(int key, int x, int y) {
+  if(!pausedState){
     if (key == GLUT_KEY_F1) { //depending on what direction the robot is facing we set the camera appropriately for the defined lookats
         if (robNorth) {
           recentfKey = 1; //recent fkey is simply a int specifying what camera angle to use relative to the robot
@@ -611,6 +645,7 @@ void speckeyboard(int key, int x, int y) {
         recentfKey = 9;
       }
     }
+  }
 }
 
 void speckeyboarddown(int key, int x, int y) {
@@ -635,7 +670,8 @@ void CallBackResizeScene(int Width, int Height)
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
    //glOrtho(-200, 200, -200, 200, 0, 50);
-   gluPerspective(45.0f,(GLfloat)Width/(GLfloat)Height,0.1f,500.0f);
+   //Buildings come into view in distance
+   gluPerspective(45.0f,(GLfloat)Width/(GLfloat)Height,0.1f,300.0f);
 
    glMatrixMode(GL_MODELVIEW);
 
@@ -659,7 +695,7 @@ void MyInit(int Width, int Height)
 
 int main(int argc, char **argv)
 {
-   //INITIALIZATION
+   //INITIALIZATION of class attributes of Robot
   robot.atx = 0; //x position of lookat
   robot.aty = 0.0;//y position of lookat
   robot.atz = 0; //z position of lookat

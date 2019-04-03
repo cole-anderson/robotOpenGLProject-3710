@@ -8,9 +8,8 @@ LIBRARIES = -lX11 -lXi -lXmu -lglut -lGL -lGLU -lm
 
 all: robot
 
-robot: main.o robot.o
+robot: main.o objects.o
 	$(CC) $(CFLAGS) main.o -o robot $(LIBDIR) $(LIBRARIES)
 
 clean:
 	rm -f *.o *~ robot
-

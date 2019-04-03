@@ -1,6 +1,19 @@
 #ifndef ROBOT_H
 #define ROBOT_H
+/*
+File: objects.cpp
+Contributors:
+  Cole Anderson
+  Liam King
+  Brayden Ormann
+Purpose:
+  Data for creation of
+  robot, buildings and the world.
 
+
+
+
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -12,15 +25,19 @@
 #include <GL/glut.h>
 #include<math.h>
 
+
 #define PI 3.1415927
 
 void moveCam(int);
 void headRotate(bool, bool);
+static GLuint skybox;
+static GLuint hor;
 
 
 class Robot {
 public:
-  float atx; //all explained in main where we initialize them in the main function.
+  //all explained in main where we initialize them in the main function
+  float atx;
   float aty;
   float atz;
   float eyex;
@@ -37,11 +54,12 @@ public:
   int nameCount;
   GLenum modeV; //current GL_MODE (either GL_RENDER or GL_SELECT)
 
-	//Draws the buildings for a block
+	//Draws the buildings for b block
 	void drawBuildingB(int x, int z) {
 	  //Draw the one cylindrical building on the block
 
-	  glColor3f( 0, 0, 1);
+    //BLACK CYLINDER
+	 glColor3f(0.0f, 0.0f, 0.0f);
   //  glTranslatef(-605 + x, 0, -605 + z);
 	  glLoadIdentity();
 			gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
@@ -68,7 +86,8 @@ public:
 	glLoadIdentity();
 		gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
     glTranslatef(-655, -4.95, -655);
-	  glColor3f( 1, 0, 0);
+    //GREY X2 BUILDINGS
+	   glColor3f(0.5f, 0.5f, 0.5f);
 	  //Top Building
 	  // BACK
     if(modeV == GL_SELECT){
@@ -147,20 +166,10 @@ public:
 	  glVertex3f( x+22.5, 0, z+5 );
 	  glEnd();
 
-/*	  //Draw the cylindrical building
-	  //Set up transformation matrix resulted from rotation and translation
-	  glLoadIdentity();
-	  glRotatef(90, 1, 0, 0);
-	  glTranslatef(x+36.5, 0, z+13.75);
-	  //Draw the cylinder based on the current matrix so it's it the correct position
-	  glBegin(GL_POLYGON);
-	  GLUquadricObj *obj = gluNewQuadric();
-	  gluCylinder(obj, 8.75, 8.75, 55, 50, 50);
-	  glEnd();*/
 	  //Reset current matrix to identity
 	  glLoadIdentity();
 	}
-
+  //antenna
   void draw_cylinder(GLfloat radius,
                      GLfloat height) //function that can be used to draw a custom cylinder with different colors (this is only used for the antenna)
   {
@@ -177,7 +186,7 @@ public:
           while( angle < 2*M_PI ) {
               x = radius * cos(angle);
               y = radius * sin(angle);
-              glColor3f(r, 0.5f, 0.5f);
+              glColor3f(r, 0.3f, 0.3f);
                   r += 0.005;
               glVertex3f(x, y , height);
               glColor3f(0.86f, 0.86f, 0.86f);
@@ -254,8 +263,14 @@ void draw_environment(GLenum mode){
     glEnd();
 
 
-		/*//SKY COLORS:::
-    glColor4f(1.0, 1.0, 1.0, 0.0);
+    /*
+    Was unable to impliment a skybox after changes to our lookat
+
+    */
+		//SKY COLORS:::
+    /*
+    glColor4f(1.0, 0.6, 0.3, 0.0);
+    glBindTexture(GL_TEXTURE_2D, skybox);
 		glBegin(GL_QUADS);
 
 		glTexCoord2f(0.0, 0.0); glVertex3f( 50.0, 5.0, -50.0);
@@ -266,8 +281,8 @@ void draw_environment(GLenum mode){
 
 		glTexCoord2f(1.0, 0.0); glVertex3f(-50.0, 5.0, -50.0);
 		glEnd();
-	//	glEnd();
-//		glBindTexture(GL_TEXTURE_2D, horizon);
+
+		glBindTexture(GL_TEXTURE_2D, hor);
 		glBegin(GL_QUADS);
         glTexCoord2f(1.0, 1.0); glVertex3f( 50.0,  -5.0,  -50.0);
         glTexCoord2f(1.0, 0.0); glVertex3f( 50.0, 5.0,  -50.0);
@@ -290,9 +305,9 @@ void draw_environment(GLenum mode){
 		glTexCoord2f(0.0, 1.0); glVertex3f(-50.0,  5.0,  -50.0);
 		glTexCoord2f(1.0, 1.0); glVertex3f(-50.0,  5.0,   50.0);
 		glTexCoord2f(1.0, 0.0); glVertex3f(-50.0, -5.0,   50.0);
-		glEnd();*/
+		glEnd();
 
-
+*/
 		glFlush();
 
 
@@ -303,7 +318,7 @@ void drawBuildingC(int x, int z) {
   glLoadIdentity();
 	gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
   glTranslatef(-655, -4.95, -655);
-  glColor3f( 0, 1, 0);
+  glColor3f( 0.1f, 0.2f, 0.0f);
   // BACK
   if(modeV == GL_SELECT){
     glLoadName(nameCount);
@@ -533,10 +548,13 @@ void drawRobot() { //function for drawing the robot into the world
 
   glEnd();
 
+
   antRot += 30;
   if (antRot == 360) { //rotating antenna constantly, bringing back to 0 if it his 360 so it doesn't eventually overflow
    antRot = 0;
   }
+
+
 }
 
 void moveCam (int fKey) { //function that handles the camera angles.
@@ -702,82 +720,82 @@ void moveCam (int fKey) { //function that handles the camera angles.
         }
         break;
     case 9:
-        if (eyex > (offx + 200)) {
+        if (eyex > (offx + 50)) {
             eyex--;
         }
-        if (eyex < (offx + 200)) {
+        if (eyex < (offx + 50)) {
             eyex++;
         }
-        if (eyey > 200) {
+        if (eyey > 50) {
             eyey--;
         }
-        if (eyey < 200) {
+        if (eyey < 50) {
             eyey++;
         }
-        if (eyez > (offz + -200)) {
+        if (eyez > (offz + -50)) {
             eyez--;
         }
-        if (eyez < (offz + -200)) {
+        if (eyez < (offz + -50)) {
             eyez++;
         }
         break;
     case 10:
-        if (eyex > (offx + -200)) {
+        if (eyex > (offx + -50)) {
             eyex--;
         }
-        if (eyex < (offx + -200)) {
+        if (eyex < (offx + -50)) {
             eyex++;
         }
-        if (eyey > 200) {
+        if (eyey > 50) {
             eyey--;
         }
-        if (eyey < 200) {
+        if (eyey < 50) {
             eyey++;
         }
-        if (eyez > (offz + -200)) {
+        if (eyez > (offz + -50)) {
             eyez--;
         }
-        if (eyez < (offz + -200)) {
+        if (eyez < (offz + -50)) {
             eyez++;
         }
         break;
     case 11:
-        if (eyex > (offx + -200)) {
+        if (eyex > (offx + -50)) {
             eyex--;
         }
-        if (eyex < (offx + -200)) {
+        if (eyex < (offx + -50)) {
             eyex++;
         }
-        if (eyey > 200) {
+        if (eyey > 50) {
             eyey--;
         }
-        if (eyey < 200) {
+        if (eyey < 50) {
             eyey++;
         }
-        if (eyez > (offz + 200)) {
+        if (eyez > (offz + 50)) {
             eyez--;
         }
-        if (eyez < (offz + 200)) {
+        if (eyez < (offz + 50)) {
             eyez++;
         }
         break;
     case 12:
-        if (eyex > (offx + 200)) {
+        if (eyex > (offx + 50)) {
             eyex--;
         }
-        if (eyex < (offx + 200)) {
+        if (eyex < (offx + 50)) {
             eyex++;
         }
-        if (eyey > 200) {
+        if (eyey > 50) {
             eyey--;
         }
-        if (eyey < 200) {
+        if (eyey < 50) {
             eyey++;
         }
-        if (eyez > (offz + 200)) {
+        if (eyez > (offz + 50)) {
             eyez--;
         }
-        if (eyez < (offz + 200)) {
+        if (eyez < (offz + 50)) {
             eyez++;
         }
         break;
