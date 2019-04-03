@@ -41,7 +41,7 @@ public:
 	void drawBuildingB(int x, int z) {
 	  //Draw the one cylindrical building on the block
 
-	  glColor3f( 1, 0, 0);
+	  glColor3f( 0, 0, 1);
   //  glTranslatef(-605 + x, 0, -605 + z);
 	  glLoadIdentity();
 			gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
@@ -112,10 +112,6 @@ public:
 
 	  //Bottom Left Building
 	  // BACK
-    if(modeV == GL_SELECT){
-		  glLoadName(nameCount);
-      nameCount++;
-    }
 	  glBegin(GL_QUADS);
 	  glVertex3f(  x+5, 0, z+22.5 );
 	  glVertex3f(  x+5, 20, z+22.5 );
@@ -307,7 +303,7 @@ void drawBuildingC(int x, int z) {
   glLoadIdentity();
 	gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
   glTranslatef(-655, -4.95, -655);
-  glColor3f( 1, 0, 0);
+  glColor3f( 0, 1, 0);
   // BACK
   if(modeV == GL_SELECT){
     glLoadName(nameCount);

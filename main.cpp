@@ -36,6 +36,7 @@ bool robWest = false;
 int offAddz = 5;
 int offAddx = 0;
 int randNums[400];
+int buildHits[400];
 Robot robot;
 
 static void PrintString(void *font, char *str)
@@ -48,22 +49,26 @@ static void PrintString(void *font, char *str)
 
 void drawObjects(GLenum mode)
 {
+  int counter = 0;
   robot.modeV = mode;
   for (int i = 0; i<20; i++) {
     for (int j = 0; j<20; j++) {
-      int build = randNums[i*j];
+      int build = randNums[counter];
       switch(build) {
         case 1:
         robot.drawBuildingA(0 + i*60, 0+j*60);
+        counter++;
         break;
         case 2:
         robot.drawBuildingB(0 + i*60, 0+j*60);
+        counter++;
         break;
         case 3:
         robot.drawBuildingC(0+ i*60, 0+j*60);
+        counter++;
         break;
         default:
-        robot.drawBuildingA(0 + i*60, 0+j*60);
+        counter++;
         break;
       }
   }
@@ -142,6 +147,14 @@ void processHits (GLint hits, GLuint buffer[])
   ptr = ptrNames;
   for (j = 0; j < numberOfNames; j++,ptr++) {
      printf ("%d ", *ptr);
+     std::cout << *ptr % 400 << std::endl;
+     std::cout << randNums[*ptr % 400] << std::endl;
+     std::cout << buildHits[*ptr % 400] << std::endl;
+     if (buildHits[*ptr % 400] > 0) {
+       buildHits[*ptr % 400]--;
+     }
+
+          std::cout << buildHits[*ptr % 400] << std::endl;
   }
   printf ("\n");
 }
@@ -164,7 +177,7 @@ void mouse(int button, int state, int x, int y)
    	glRenderMode(GL_SELECT);          // Enter into the selection mode.
 
    	glInitNames();    // Initialize the name stack. We need to push our objects into the stack.
-   	glPushName(0);
+   	glPushName(-1);
 
    	glMatrixMode (GL_PROJECTION);   // Need to create a new projection matrix. We select projection stack first.
    	glPushMatrix ();                // Need to save the old one, which is our projection for rendering on the screen.
@@ -603,12 +616,24 @@ int main(int argc, char **argv)
   robot.antRot = 0;
   robot.offz = 0;
   robot.offx = 0;
-  robot.nameCount = 1;
+  robot.nameCount = 0;
 
 
   srand(time(NULL));
 for (int i = 0; i<400; i++) {
   randNums[i] = rand() % 3 + 1;
+}
+
+for (int i = 0; i <400; i++) {
+  if (randNums[i] == 1) {
+    buildHits[i] = -1;
+  }
+  if (randNums[i] == 2) {
+    buildHits[i] = 3;
+  }
+  if (randNums[i] == 3) {
+    buildHits[i] = 1;
+  }
 }
 
    glutInit(&argc, argv);
