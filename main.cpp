@@ -68,6 +68,7 @@ void drawObjects(GLenum mode)
         counter++;
         break;
         default:
+        robot.drawBuildingC(20000, 20000);
         counter++;
         break;
       }
@@ -152,6 +153,9 @@ void processHits (GLint hits, GLuint buffer[])
      std::cout << buildHits[*ptr % 400] << std::endl;
      if (buildHits[*ptr % 400] > 0) {
        buildHits[*ptr % 400]--;
+     }
+     if (buildHits[*ptr % 400] == 0) {
+       randNums[*ptr % 400] = 5;
      }
 
           std::cout << buildHits[*ptr % 400] << std::endl;
