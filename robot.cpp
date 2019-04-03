@@ -34,6 +34,8 @@ public:
   int antRot;
   float offz;
   float offx;
+  int nameCount;
+  GLenum modeV;
 
 	//Draws the buildings for a block
 	void drawBuildingB(int x, int z) {
@@ -47,7 +49,11 @@ public:
 	  glTranslatef(x+30, -4.95, z+30);
 	  glRotatef(90, -1, 0, 0);
 	  //Draw the cylinder based on the current matrix so it's it the correct position
-	  glBegin(GL_TRIANGLE_STRIP);
+    if(modeV == GL_SELECT){
+		  glLoadName(nameCount);
+      nameCount++;
+    }
+    glBegin(GL_TRIANGLE_STRIP);
 	  GLUquadricObj *obj = gluNewQuadric();
 	  gluCylinder(obj, 15, 15, 30, 10, 10);
 	  glEnd();
@@ -65,35 +71,39 @@ public:
 	  glColor3f( 1, 0, 0);
 	  //Top Building
 	  // BACK
-	  glBegin(GL_POLYGON);
+    if(modeV == GL_SELECT){
+		  glLoadName(nameCount);
+      nameCount++;
+    }
+	  glBegin(GL_QUADS);
 	  glVertex3f(  x+16.5, 0, z+45 );
 	  glVertex3f(  x+16.5, 30, z+45 );
 	  glVertex3f( x+34, 30, z+45 );
 	  glVertex3f( x+34, 0, z+45 );
-	  glEnd();
+
 	  //RIGHT
-	  glBegin(GL_POLYGON);
+
 	  glVertex3f( x+34, 30, z+45 );
 	  glVertex3f( x+34, 0, z+45 );
 	  glVertex3f( x+34, 0, z+27.5 );
 	  glVertex3f( x+34, 30, z+27.5 );
-	  glEnd();
+
 	  //LEFT
-	  glBegin(GL_POLYGON);
+
 	  glVertex3f( x+16.5, 30, z+27.5 );
 	  glVertex3f( x+16.5, 30, z+45 );
 	  glVertex3f( x+16.5, 0, z+45 );
 	  glVertex3f( x+16.5, 0, z+27.5 );
-	  glEnd();
+
 	  //TOP
-	  glBegin(GL_POLYGON);
+
 	  glVertex3f( x+16.5, 30, z+27.5 );
 	  glVertex3f( x+16.5 , 30, z+45 );
 	  glVertex3f( x+34, 30, z+45 );
 	  glVertex3f( x+34, 30, z+27.5 );
-	  glEnd();
+
 	  //BOTTOM
-	  glBegin(GL_POLYGON);
+
 	  glVertex3f( x+16.5, 0, z+27.5 );
 	  glVertex3f( x+16.5, 0, z+45 );
 	  glVertex3f( x+34 , 0, z+45 );
@@ -102,35 +112,39 @@ public:
 
 	  //Bottom Left Building
 	  // BACK
-	  glBegin(GL_POLYGON);
+    if(modeV == GL_SELECT){
+		  glLoadName(nameCount);
+      nameCount++;
+    }
+	  glBegin(GL_QUADS);
 	  glVertex3f(  x+5, 0, z+22.5 );
 	  glVertex3f(  x+5, 20, z+22.5 );
 	  glVertex3f( x+22.5, 20, z+22.5 );
 	  glVertex3f( x+22.5, 0, z+22.5 );
-	  glEnd();
+
 	  //RIGHT
-	  glBegin(GL_POLYGON);
+
 	  glVertex3f( x+22.5, 0, z+5 );
 	  glVertex3f( x+22.5, 20, z+5 );
 	  glVertex3f( x+22.5, 20, z+22.5 );
 	  glVertex3f( x+22.5, 0, z+22.5 );
-	  glEnd();
+
 	  //LEFT
-	  glBegin(GL_POLYGON);
+
 	  glVertex3f( x+5, 0, z+5 );
 	  glVertex3f( x+5, 20, z+5 );
 	  glVertex3f( x+5, 20, z+22.5 );
 	  glVertex3f( x+5, 0, z+22.5 );
-	  glEnd();
+
 	  //TOP
-	  glBegin(GL_POLYGON);
+
 	  glVertex3f( x+5, 20, z+5 );
 	  glVertex3f( x+5 , 20, z+22.5 );
 	  glVertex3f( x+22.5, 20, z+22.5 );
 	  glVertex3f( x+22.5, 20, z+5 );
-	  glEnd();
+
 	  //BOTTOM
-	  glBegin(GL_POLYGON);
+
 	  glVertex3f( x+5, 0, z+5 );
 	  glVertex3f( x+5, 0, z+22.5 );
 	  glVertex3f( x+22.5 , 0, z+22.5 );
@@ -295,35 +309,39 @@ void drawBuildingC(int x, int z) {
   glTranslatef(-655, -4.95, -655);
   glColor3f( 1, 0, 0);
   // BACK
-  glBegin(GL_POLYGON);
+  if(modeV == GL_SELECT){
+    glLoadName(nameCount);
+    nameCount++;
+  }
+  glBegin(GL_QUADS);
   glVertex3f(  x+5, 0, z+45 );
   glVertex3f(  x+5, 30, z+45 );
   glVertex3f( x+45, 30, z+45 );
   glVertex3f( x+45, 0, z+45 );
-  glEnd();
+
   //RIGHT
-  glBegin(GL_POLYGON);
+
   glVertex3f( x+45, 30, z+45 );
   glVertex3f( x+45, 0, z+45 );
   glVertex3f( x+45, 0, z+5 );
   glVertex3f( x+45, 30, z+5 );
-  glEnd();
+
   //LEFT
-  glBegin(GL_POLYGON);
+
   glVertex3f( x+5, 0, z+5 );
   glVertex3f( x+5, 30, z+5 );
   glVertex3f( x+5, 30, z+45 );
   glVertex3f( x+5, 0, z+45 );
-  glEnd();
+
   //TOP
-  glBegin(GL_POLYGON);
+
   glVertex3f( x+5, 30, z+5 );
   glVertex3f( x+5 , 30, z+45 );
   glVertex3f( x+45, 30, z+45 );
   glVertex3f( x+45, 30, z+5 );
-  glEnd();
+
   //BOTTOM
-  glBegin(GL_POLYGON);
+
   glVertex3f( x+5, 0, z+5 );
   glVertex3f( x+5, 0, z+45 );
   glVertex3f( x+45 , 0, z+45 );

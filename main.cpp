@@ -1,5 +1,5 @@
-#define PROGRAM_TITLE "Liam King"
-#define DISPLAY_INFO "MultiRot Program for 3710 - Liam King"
+#define PROGRAM_TITLE "Fortnite 2 Ft Robot"
+#define DISPLAY_INFO "CPSC 3710"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -46,6 +46,33 @@ static void PrintString(void *font, char *str)
       glutBitmapCharacter(font,*str++);
 }
 
+void drawObjects(GLenum mode)
+{
+  robot.modeV = mode;
+  for (int i = 0; i<20; i++) {
+    for (int j = 0; j<20; j++) {
+      int build = randNums[i*j];
+      switch(build) {
+        case 1:
+        robot.drawBuildingA(0 + i*60, 0+j*60);
+        break;
+        case 2:
+        robot.drawBuildingB(0 + i*60, 0+j*60);
+        break;
+        case 3:
+        robot.drawBuildingC(0+ i*60, 0+j*60);
+        break;
+        default:
+        robot.drawBuildingA(0 + i*60, 0+j*60);
+        break;
+      }
+  }
+  }
+
+
+}
+
+
 void CallBackRenderScene(void)
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -57,27 +84,9 @@ glPushMatrix();
 robot.draw_environment(GL_RENDER);
 glPopMatrix();
 //glTranslatef(605, 0, 605);
-
+drawObjects(GL_RENDER);
 //drawBuildingA(0,0);
-for (int i = 0; i<20; i++) {
-  for (int j = 0; j<20; j++) {
-    int build = randNums[i*j];
-    switch(build) {
-      case 1:
-      robot.drawBuildingA(0 + i*60, 0+j*60);
-      break;
-      case 2:
-      robot.drawBuildingB(0 + i*60, 0+j*60);
-      break;
-      case 3:
-      robot.drawBuildingC(0+ i*60, 0+j*60);
-      break;
-      default:
-      robot.drawBuildingA(0 + i*60, 0+j*60);
-      break;
-    }
-}
-}
+
 
 glPushMatrix();
 glLoadIdentity();
@@ -104,31 +113,98 @@ glPopMatrix();
    glutSwapBuffers();
 
    robot.headRotate(headTurnR, headTurnL);
-   std::cout << robot.atx << " " << robot.eyex << " " << offAddx << std::endl;
 
    robot.bodyRot(robRotR, robRotL);
    robot.moveCam(recentfKey);
 
 }
+void processHits (GLint hits, GLuint buffer[])
+{
+   unsigned int i, j;
+   GLuint names, *ptr, minZ,*ptrNames, numberOfNames;
+
+   printf ("hits = %d\n", hits);
+   std::cout << robot.nameCount << std::endl;
+   ptr = (GLuint *) buffer;
+   minZ = 0xffffffff;
+   for (i = 0; i < hits; i++) {
+      names = *ptr;
+	  ptr++;
+	  if (*ptr < minZ) {
+		  numberOfNames = names;
+		  minZ = *ptr;
+		  ptrNames = ptr+2;
+	  }
+
+	  ptr += names+2;
+	}
+  printf ("The closest hit names are:");
+  ptr = ptrNames;
+  for (j = 0; j < numberOfNames; j++,ptr++) {
+     printf ("%d ", *ptr);
+  }
+  printf ("\n");
+}
 
 
+#define SIZE 10000
 
 void mouse(int button, int state, int x, int y)
 {
-    if((button == GLUT_RIGHT_BUTTON) && (state == GLUT_DOWN)) {
+   GLuint selectBuf[SIZE]; // Selection buffer, which is an array of size 512.
+   GLint hits;
+   GLint viewport[4]; // Current viewport size. See below.
+
+   if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)  // When the left mouse button is pressed, we start picking.
+   {
+
+   	glGetIntegerv (GL_VIEWPORT, viewport);  // Get the viewport size and put them into the array viewport.
+
+   	glSelectBuffer (SIZE, selectBuf); // Create the selection buffer for preparing picking.
+   	glRenderMode(GL_SELECT);          // Enter into the selection mode.
+
+   	glInitNames();    // Initialize the name stack. We need to push our objects into the stack.
+   	glPushName(0);
+
+   	glMatrixMode (GL_PROJECTION);   // Need to create a new projection matrix. We select projection stack first.
+   	glPushMatrix ();                // Need to save the old one, which is our projection for rendering on the screen.
+   	glLoadIdentity ();              // Start a new projection matrix calculation.
+
+	// Create 5x5 pixel picking region near the current mouse pointer location
+	// This is where we need to pay attention to.
+	//
+	// Note the second parameter of gluPickMatrix. OpenGL has a different origin
+	// for its window coordinates than the operation system. The second parameter
+	// provides for the conversion between the two systems, i.e. it transforms the
+	// origin from the upper left corner, as provided by GLUT (related to the hardware,
+	// for this case, the mouse pointer's location), into the bottom left corner,
+	// which is the one OpenGL uses.
+	//
+	// The picking region in this case is a 5x5 window. You may find that it is not
+	// appropriate for your application. Do some tests to find an appropriate value
+	// if you're finding it hard to pick the right objects.
+	//
+   	gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
+                  	5.1,5.1, viewport);
+//   	glOrtho (-20.0, 20.0, -20.0, 20.0, -500.0, 600.0);  // This also related how sensitive we want our picking to be.
+    gluPerspective(45.0f, (GLfloat)Window_Width/(GLfloat)Window_Height, 1.0, 150.0f);
+    glMatrixMode(GL_MODELVIEW);
+  	drawObjects(GL_SELECT);             // See below for the tricks we play here.
 
 
-    }
-    if((button == GLUT_RIGHT_BUTTON) && (state == GLUT_UP)) {
+   	glMatrixMode (GL_PROJECTION);       // Now that the projection is done,
+   	glPopMatrix ();                     // we don't need it any more. We have to
+   	glFlush ();                         // retrieve the project matrix for displaying on the screen.
 
-    }
-    if((button == GLUT_LEFT_BUTTON) && (state == GLUT_DOWN)) {
+   	hits = glRenderMode (GL_RENDER);    // Leave the selection mode.
 
-    }
-    if((button == GLUT_LEFT_BUTTON) && (state == GLUT_UP)) {
+    processHits (hits, selectBuf);      // To see which objects are hit. See below
 
-    }
+   	glutPostRedisplay();
+   }
 }
+
+
 
 void keyboard(unsigned char key, int x, int y)
 {
@@ -328,13 +404,13 @@ void speckeyboard(int key, int x, int y) {
           recentfKey = 1;
         }
         if (robEast) {
-          recentfKey = 2;
+          recentfKey = 4;
         }
         if (robSouth) {
           recentfKey = 3;
         }
         if (robWest) {
-          recentfKey = 4;
+          recentfKey = 2;
         }
     }
     if (key == GLUT_KEY_F2) {
@@ -527,8 +603,9 @@ int main(int argc, char **argv)
   robot.antRot = 0;
   robot.offz = 0;
   robot.offx = 0;
-   
-   
+  robot.nameCount = 1;
+
+
   srand(time(NULL));
 for (int i = 0; i<400; i++) {
   randNums[i] = rand() % 3 + 1;
