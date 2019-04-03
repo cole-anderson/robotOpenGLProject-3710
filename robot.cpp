@@ -20,22 +20,22 @@ void headRotate(bool, bool);
 
 class Robot {
 public:
-  float atx;
+  float atx; //all explained in main where we initialize them in the main function.
   float aty;
-  float atz; //floats for the at coordinates in our LookAt
+  float atz;
   float eyex;
   float eyey;
-  float eyez; //the xyz coords for the eye location in our LookAt, starting at 0 0 5
+  float eyez;
   int cx;
   int cy;
-  int cz;  //floats for defining coords of the center of cube, cube starts centered at 0 0 0
-  int bodyAngle; //the angle at which the cube is currently.
+  int cz;
+  int bodyAngle;
   int headAngle;
   int antRot;
   float offz;
   float offx;
   int nameCount;
-  GLenum modeV;
+  GLenum modeV; //current GL_MODE (either GL_RENDER or GL_SELECT)
 
 	//Draws the buildings for a block
 	void drawBuildingB(int x, int z) {
@@ -162,7 +162,7 @@ public:
 	}
 
   void draw_cylinder(GLfloat radius,
-                     GLfloat height)
+                     GLfloat height) //function that can be used to draw a custom cylinder with different colors (this is only used for the antenna)
   {
       GLfloat x              = 0.0;
       GLfloat y              = 0.0;
@@ -346,28 +346,27 @@ void drawBuildingC(int x, int z) {
 
 }
 
-void drawRobot() {
+void drawRobot() { //function for drawing the robot into the world
   GLUquadric* neckquad;
   neckquad = gluNewQuadric();
   GLUquadric* antquad;
   antquad = gluNewQuadric();
-  gluQuadricTexture(antquad, true);
+  gluQuadricTexture(antquad, true); //making a cylinder object
 
 
 
 
   //cube begin
   glLoadIdentity();
-  gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
+  gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0); //lookat view for the robot
 
-  glTranslatef(cx,cy,cz);
-  glRotatef(bodyAngle, 0, 1, 0);
-  glTranslatef(0, 0, 0);
+  glTranslatef(cx,cy,cz); //translate to robots current position
+  glRotatef(bodyAngle, 0, 1, 0); //for when robot is turning to left or right
+  glTranslatef(0, 0, 0); //translate to 0, 0, 0 first for if robot is turning
 
-  //glRotatef(cubeAngle, 0.0f, 1.0f, 0.0f);
 
-  glBegin(GL_TRIANGLES);
-
+  glBegin(GL_TRIANGLES); //this is the triangle design on the back of the robot
+ //included on the body
   glColor3f(1.0f, 1.0f, 1.0f);
   glVertex3f(-0.8f, -1.3f, -1.01f);
   glVertex3f(0.8f, -1.3f, -1.01f);
@@ -380,10 +379,10 @@ void drawRobot() {
 
   glEnd();
 
+  //begin the body of the robot
   glBegin(GL_QUADS);
 
   //frontdesign
-
   glColor3f(1.0f, 1.0f, 1.0f);
   glVertex3f(-0.6f, -1.0f,  1.01f);
   glVertex3f( 0.6f, -1.0f,  1.01f);
@@ -434,27 +433,27 @@ void drawRobot() {
 
   glEnd();
 
-  //neck
+  //neck of robot
   glTranslatef(0.0f, 1.5f, 0.0f);
   glRotatef(90, -1.0f, 0.0f, 0.0f);
 
   glBegin(GL_TRIANGLE_STRIP);
 
   glColor3f(0.5f, 0.5f, 0.5f);
-  gluCylinder(neckquad, 0.5, 0.5, 0.5, 50, 50);
+  gluCylinder(neckquad, 0.5, 0.5, 0.5, 50, 50); //cylinder gluquadric defined earlier
 
   glEnd();
 
   //antenae
-  glTranslatef(0.0f, 0.0f, 1.5f);
-  glRotatef(-antRot, 0.0f, 0.0f, 1.0f);
+  glRotatef(-antRot, 0.0f, 0.0f, 1.0f); //constantly rotate
+  glTranslatef(0.1f, 0.0f, 1.5f); //translate it on top of its head and slightly to the side so we can see it rotating better
 
   glBegin(GL_TRIANGLE_STRIP);
 
 
   glTexCoord2f(0.0f, 0.5f);
   glColor3f(0.86f,0.86f,0.86f);
-  draw_cylinder(0.1, 0.8);
+  draw_cylinder(0.1, 0.8); //use our custom cylinder function for this
 
   glEnd();
 
@@ -462,10 +461,10 @@ void drawRobot() {
   gluLookAt(eyex, eyey, eyez, atx, aty, atz, 0, 1 ,0);
 
   glTranslatef(cx,cy,cz);
-  glRotatef(bodyAngle, 0, 1, 0);
-  glTranslatef(0, 0, 0);
+  glRotatef(bodyAngle, 0, 1, 0); //do all the same things we do for the body for the head
+  glTranslatef(0, 0, 0); //the head is separate since it can rotate on its own when F2 or F3 are pressed.
 
-  glRotatef(headAngle, 0.0f, 1.0f, 0.0f);
+  glRotatef(headAngle, 0.0f, 1.0f, 0.0f); //for if the head is rotating
 
   glBegin(GL_QUADS);
 //BEGIN HEAD
@@ -535,24 +534,24 @@ void drawRobot() {
   glEnd();
 
   antRot += 30;
-  if (antRot == 360) {
+  if (antRot == 360) { //rotating antenna constantly, bringing back to 0 if it his 360 so it doesn't eventually overflow
    antRot = 0;
   }
 }
 
-void moveCam (int fKey) {
+void moveCam (int fKey) { //function that handles the camera angles.
     switch (fKey) {
     case 1:
-        if (eyex > (offx + 0)) {
+        if (eyex > (offx + 0)) { //this is default view of robot
             eyex--;
         }
-        if (eyex < (offx + 0)) {
-            eyex++;
-        }
-        if (eyey > 5) {
-            eyey--;
-        }
-        if (eyey < 5) {
+        if (eyex < (offx + 0)) { //each on of these if statements basically is checking if the eye is in the right position
+            eyex++;              //relative to the robots offset for the desired camera angle.
+        }                        //this is standard across all cases (1-12) for every camera angle required
+        if (eyey > 5) {          //1-4 are the behind view of the robot (depending on what direction he is facing)
+            eyey--;              //5-8 are the angled camera views of the robot
+        }                        //9-12 are the farther out angled camera views of the robot
+        if (eyey < 5) {          //All of these use offx and offz to determine how far offset the robot currently is from the origin
             eyey++;
         }
         if (eyez > (offz + -15)) {
@@ -787,22 +786,22 @@ void moveCam (int fKey) {
 
 void bodyRot(bool& robRotR, bool& robRotL) {
 if (robRotR) {
-    bodyAngle += 3;
-    if ((bodyAngle == 90) || (bodyAngle == 180) || (bodyAngle == 270) || (bodyAngle == 360) || (bodyAngle == 0)) {
-        if (bodyAngle == 360) {
+    bodyAngle += 3; //if the robot is supposed to be rotating right, we add 3 until we hit a 90 degree angle (which is north/east/south/west)
+    if ((bodyAngle == 90) || (bodyAngle == 180) || (bodyAngle == 270) || (bodyAngle == 360) || (bodyAngle == 0)) { //we only want to rotate to a 90 degree direction
+        if (bodyAngle == 360) { //to prevent overflow we reset to 0 when we hit 360
             bodyAngle = 0;
         }
-        robRotR = false;
+        robRotR = false; //when we hit a 90 degree angle we set it to no longer be rotating
     }
     if ((bodyAngle == -90) || (bodyAngle == -180) || (bodyAngle == -270) || (bodyAngle == -360) || (bodyAngle == 0))  {
-        if (bodyAngle == -360) {
+        if (bodyAngle == -360) { //still must account for if the robot was previously rotated to the left, checking for 90 degree angles in the negative direction as well
             bodyAngle = 0;
         }
         robRotR = false;
     }
 }
 if (robRotL) {
-    bodyAngle -= 3;
+    bodyAngle -= 3; //identical to previous if statement but reversed for rotating to the left instead
     if ((bodyAngle == -90) || (bodyAngle == -180) || (bodyAngle == -270) || (bodyAngle == -360) || (bodyAngle == 0)) {
         if (bodyAngle == -360) {
             bodyAngle = 0;
@@ -819,21 +818,21 @@ if (robRotL) {
 }
 
 void headRotate(bool headTurnR, bool headTurnL) {
-  if (headAngle == 360) {
+  if (headAngle == 360) { //if the angle rotates a full 360 we reset it to prevent overflow
    headAngle = 0;
   }
-  if (headAngle == -360) {
+  if (headAngle == -360) { //if the angle rotates a full 360 we reset it to prevent overflow
    headAngle = 0;
   }
-  if (headTurnR == true) {
+  if (headTurnR == true) { //if the head turn right key is pressed down we rotate the head until it no longer is
    headAngle -= 2;
   }
 
-  if (headTurnL == true) {
+  if (headTurnL == true) { //if the head turn left key is pressed down we rotate the head until it no longer is
        headAngle += 2;
   }
 
-  if((headAngle != 0) && (headTurnL == false) && (headTurnR == false)) {
+  if((headAngle != 0) && (headTurnL == false) && (headTurnR == false)) { //when we are no longer turning we reset the head to forward position
        if (headAngle > 0) {
        headAngle -= 2;
        }
