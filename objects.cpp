@@ -9,21 +9,16 @@ Contributors:
 Purpose:
   Data for creation of
   robot, buildings and the world.
-
-
-
-
 */
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 #include <iostream>
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <math.h>
 
 #define PI 3.1415927
 
@@ -394,7 +389,7 @@ public:
 
     glTranslatef(cx, cy, cz);      // translate to robots current position
     glRotatef(bodyAngle, 0, 1, 0); // for when robot is turning to left or right
-    glTranslatef(0, 0, 0); // translate to 0, 0, 0 first for if robot is turning
+    glTranslatef(0, 0, 0);         // translate to 0, 0, 0 first for if robot is turning
 
     glBegin(
         GL_TRIANGLES); // this is the triangle design on the back of the robot
@@ -496,7 +491,7 @@ public:
 
     glTranslatef(cx, cy, cz);
     glRotatef(bodyAngle, 0, 1,
-              0); // do all the same things we do for the body for the head
+              0);          // do all the same things we do for the body for the head
     glTranslatef(0, 0, 0); // the head is separate since it can rotate on its
                            // own when F2 or F3 are pressed.
 
@@ -590,8 +585,8 @@ public:
       { // each on of these if statements basically is checking if the eye is in
         // the right position
         eyex++; // relative to the robots offset for the desired camera angle.
-      } // this is standard across all cases (1-12) for every camera angle
-        // required
+      }         // this is standard across all cases (1-12) for every camera angle
+      // required
       if (eyey > 5)
       { // 1-4 are the behind view of the robot (depending on what direction he
         // is facing)

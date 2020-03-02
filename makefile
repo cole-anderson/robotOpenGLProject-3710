@@ -1,3 +1,4 @@
+#OPEN GL MAKEFILE
 INCLUDE = -I/usr/include/
 LIBDIR = -L/usr/lib/
 

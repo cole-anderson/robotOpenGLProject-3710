@@ -14,18 +14,17 @@ in certain blocks
 
 
 */
+#include "objects.cpp"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 #include <iostream>
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-#include "objects.cpp"
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <math.h>
 
 #define PI 3.1415927
 
@@ -49,14 +48,14 @@ bool robNorth = true;   // is robot facing north (starts off north)
 bool robEast = false;   // is robot facing east
 bool robSouth = false;  // is robot facing south
 bool robWest = false;   // is robot facing west
-int offAddz = 5; // we start off facing north so we want to be able to move that
-                 // direction, this is used for movement/camera on z key
-int offAddx = 0;   // same as offAddz
-int randNums[400]; // array to hold random numbers generated for building
-                   // generation
-int buildHits[400]; // sister array to hold hit values of buildings so they can
-                    // be destroyed.
-Robot robot; // robot object to do most functions.
+int offAddz = 5;        // we start off facing north so we want to be able to move that
+                        // direction, this is used for movement/camera on z key
+int offAddx = 0;        // same as offAddz
+int randNums[400];      // array to hold random numbers generated for building
+                        // generation
+int buildHits[400];     // sister array to hold hit values of buildings so they can
+                        // be destroyed.
+Robot robot;            // robot object to do most functions.
 
 static void PrintString(void *font, char *str)
 {
@@ -90,8 +89,8 @@ void drawObjects(GLenum mode)
         robot.drawBuildingC(0 + i * 60, 0 + j * 60);
         counter++;
         break;
-      default: // case for if the building is destroyed (its number will be set
-               // to 5 and fall here)
+      default:                             // case for if the building is destroyed (its number will be set
+                                           // to 5 and fall here)
         robot.drawBuildingC(20000, 20000); // draws the building out of view to
                                            // give the illusion it is destroyed
         counter++;
@@ -177,7 +176,7 @@ void processHits(GLint hits, GLuint buffer[])
   {
     std::cout << *ptr % 400 << std::endl;
     if (buildHits[*ptr % 400] > 0)
-    { // if we hit a building an the hit counter is still above 0
+    {                          // if we hit a building an the hit counter is still above 0
       buildHits[*ptr % 400]--; // subtract one from the hit counter
     }
     if (buildHits[*ptr % 400] == 0)
@@ -209,7 +208,7 @@ void mouse(int button, int state, int x, int y)
 
       glSelectBuffer(
           SIZE,
-          selectBuf); // Create the selection buffer for preparing picking.
+          selectBuf);          // Create the selection buffer for preparing picking.
       glRenderMode(GL_SELECT); // Enter into the selection mode.
 
       glInitNames(); // Initialize the name stack. We need to push our objects
@@ -218,9 +217,9 @@ void mouse(int button, int state, int x, int y)
 
       glMatrixMode(GL_PROJECTION); // Need to create a new projection matrix. We
                                    // select projection stack first.
-      glPushMatrix();   // Need to save the old one, which is our projection for
-                        // rendering on the screen.
-      glLoadIdentity(); // Start a new projection matrix calculation.
+      glPushMatrix();              // Need to save the old one, which is our projection for
+                                   // rendering on the screen.
+      glLoadIdentity();            // Start a new projection matrix calculation.
 
       // Create 5x5 pixel picking region near the current mouse pointer location
       // This is where we need to pay attention to.
@@ -245,7 +244,7 @@ void mouse(int button, int state, int x, int y)
 
       glMatrixMode(GL_PROJECTION); // Now that the projection is done,
       glPopMatrix();               // we don't need it any more. We have to
-      glFlush(); // retrieve the project matrix for displaying on the screen.
+      glFlush();                   // retrieve the project matrix for displaying on the screen.
 
       hits = glRenderMode(GL_RENDER); // Leave the selection mode.
 
@@ -275,7 +274,7 @@ void keyboard(unsigned char key, int x, int y)
       robot.cz +=
           offAddz; // move the robot forward, the offAddx and offAddz change
       robot.cx +=
-          offAddx; // based on the direction the robot is currently facing
+          offAddx;           // based on the direction the robot is currently facing
       robot.eyez += offAddz; // to keep up with where the robot is
       robot.atz += offAddz;
       robot.atx += offAddx;
@@ -331,12 +330,12 @@ void keyboard(unsigned char key, int x, int y)
             robEast = true;   // now facing east!
             recentfKey -= 1;
             if (recentfKey == 0)
-            { // changing camera angle relative to direction and robot
+            {                 // changing camera angle relative to direction and robot
               recentfKey = 4; // this insures the camera turns to be the same
                               // lookat view when you turn the robot
-              break; // the rest of the if's for the different direction work
-                     // identically except with different
-            } // parameters being changed.
+              break;          // the rest of the if's for the different direction work
+                              // identically except with different
+            }                 // parameters being changed.
             if (recentfKey == 4)
             {
               recentfKey = 8;
@@ -443,11 +442,11 @@ void keyboard(unsigned char key, int x, int y)
             robWest = true;
             recentfKey += 1;
             if (recentfKey == 5)
-            { // changing camera angle relative to direction and robot
+            {                 // changing camera angle relative to direction and robot
               recentfKey = 1; // this insures the camera turns to be the same
                               // lookat view when you turn the robot
-            } // the rest of the if's for the different direction work
-              // identically except with different
+            }                 // the rest of the if's for the different direction work
+            // identically except with different
             if (recentfKey == 9)
             { // parameters being changed.
               recentfKey = 5;
@@ -536,7 +535,7 @@ void keyboard(unsigned char key, int x, int y)
     case 114: // r key
       if ((robot.cx == 540) || (robot.cx == -660) || (robot.cz == 540) ||
           (robot.cz == -660))
-      { // if the key is pressed while the robot is at the boundary
+      {                     // if the key is pressed while the robot is at the boundary
         robot.eyez = -15.0; // reset all positional values
         robot.cz = 0;
         robot.cx = 0;
